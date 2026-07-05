@@ -4,6 +4,7 @@ set -Eeuo pipefail
 INPUT_ROOT="${INPUT_ROOT:-/app/data/input}"
 OUTPUT_ROOT="${OUTPUT_ROOT:-/app/data/output}"
 PANO_FOV="${PANO_FOV:-360x180}"
+SKYFILL_ENABLED="${SKYFILL_ENABLED:-true}"
 
 find_images() {
   find -L "$1" -maxdepth 1 -type f \
@@ -203,8 +204,21 @@ process_project() {
 
     echo "Stitched TIFF: $tif"
 
+    skyfilled_tif="$project_out/pano_skyfilled.tif"
+
+    echo "Filling missing sky if needed..."
+    if ! python3 /app/fill_sky.py "$tif" "$skyfilled_tif"; then
+      echo "Sky-fill failed."
+      return 1
+    fi
+
+    if [ ! -s "$skyfilled_tif" ]; then
+      echo "Sky-filled TIFF was not created."
+      return 1
+    fi
+
     echo "Converting TIFF to JPEG..."
-    vips copy "$tif" "$project_out/pano.jpg[Q=95]"
+    vips copy "$skyfilled_tif" "$project_out/pano.jpg[Q=95]"
 
     if [ ! -s "$project_out/pano.jpg" ]; then
       echo "JPEG output was not created."
