@@ -1,0 +1,7 @@
+*.log
+node_modules/   # Ignore Directory
+secrets.txt
+.env
+.trunk
+data/
+output/

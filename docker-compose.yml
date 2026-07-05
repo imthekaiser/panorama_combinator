@@ -1,0 +1,29 @@
+services:
+  panorama-combinator:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: panorama-combinator
+    restart: "no"
+    cpuset: "2-15,18-31"   # Set to your CPU cores to limit usage
+    mem_limit: 64g  # Set to your available RAM to limit usage
+    init: true
+    # user: "99:100"
+    environment:
+      INPUT_ROOT: /app/data/input
+      OUTPUT_ROOT: /app/data/output
+      PANO_FOV: 360x180 # 
+    working_dir: /app
+    volumes:
+      - ./data/input:/app/data/input
+      - ./data/output:/app/data/output
+    networks:
+      panorama-combinator:
+
+    # Unraid Optional Labels
+    labels:
+      net.unraid.docker.icon: "/mnt/user/system/icons/panorama_combinator.png"    
+
+networks:
+  panorama-combinator:
+    internal: true
