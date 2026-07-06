@@ -5,8 +5,8 @@ services:
       dockerfile: dockerfile
     container_name: panorama-combinator
     restart: "no"
-    cpuset: "2-15,18-31"   # Set to your CPU cores to limit usage
-    mem_limit: 128g  # Set to your available RAM to limit usage
+    # cpuset: "2-15,18-31"   # Set to your CPU cores to limit usage
+    # mem_limit: 128g  # Set to your available RAM to limit usage
     init: true
     # user: "99:100"
     environment:

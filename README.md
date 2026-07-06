@@ -10,6 +10,10 @@ This project takes folders of panorama images, stitches them with Hugin tools, a
 
 Each input folder is treated as one panorama project.
 
+## Limitations
+
+This is still in Beta status.  Works almost every time for me on the low resolution dji panoramas.  But the 144 image High Resolution Panorama is still giving me problems and still needs troubleshooting.
+
 ## Requirements
 
 * Docker
